@@ -1,0 +1,22 @@
+<html ng-app="myModule">
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script type="text/javascript"
+	src="https://code.highcharts.com/highcharts.js"></script>
+<script src="../javascript/app.js"></script>
+<script src="../javascript/chartController.js"></script>
+<script src="../javascript/chartDirective.js"></script>
+<style>
+.chart {
+	height: 100%;
+	width: 100%;
+}
+</style>
+<body ng-controller="myController">
+	<highcharts-column class="chart" categories="{{myCategories}}"
+		series="{{mySeries}}" type="column"></highcharts-column>
+	<highcharts-column class="chart" categories="{{myCategories}}"
+		series="{{mySeries}}" type="pie"></highcharts-column>
+</body>
+
+</html>

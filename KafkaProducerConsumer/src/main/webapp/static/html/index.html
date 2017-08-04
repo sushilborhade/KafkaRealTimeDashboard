@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="myModule">
+<head>
+<meta charset="ISO-8859-1">
+<title>Client CRM Page</title>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="../javascript/app.js"></script>
+<script type="text/javascript" src="../javascript/webSocketFactory.js"></script>
+<script type="text/javascript" src="../javascript/wsLoginController.js"></script>
+<script type="text/javascript" src="../javascript/loggerController.js"></script>
+<script type="text/javascript"
+	src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="../javascript/chartController.js"></script>
+<script type="text/javascript" src="../javascript/chartDirective.js"></script>
+</head>
+<body style="font-family: arial">
+	<div id="logTab" ng-controller="wsLoginController">
+		<table>
+			<tr>
+				<td>Correlation ID</td>
+				<td><input type="text" id="logCorId"></td>
+				<td>*This is for future use</td>
+			</tr>
+			<tr>
+				<td>Host</td>
+				<td><input type="text" id="logHost"></td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td>User Name</td>
+				<td><input type="text" id="logUname" ng-model="logUname"></td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td>Password</td>
+				<td><input type="password" id="logPwd"></td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td>Station ID</td>
+				<td><input type="text" id="logStnId"></td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td>UG URL</td>
+				<td><input type="text" id="logUG"></td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td>Secured Connection</td>
+				<td><input type="checkbox" id="sslCheck" onchange="setSSL()"></td>
+				<td></td>
+			</tr>
+
+		</table>
+
+		<table>
+			<tr>
+				<td><input type="button" value="LOGIN" ng-click="openSocket()">
+				</td>
+
+			</tr>
+		</table>
+	</div>
+
+	<div ng-controller="myController">
+		<highcharts-column class="chart" categories="{{myCategories}}"
+			series="{{mySeries}}" type="column"></highcharts-column>
+		<highcharts-column class="chart" categories="{{myCategories}}"
+			series="{{mySeries}}" type="pie"></highcharts-column>
+	</div>
+
+	<div id="IODiv" ng-controller="loggerController">
+		<hr width="100%">
+		<table>
+			<tr>
+				<td>Request : <input type="button" id="clearReq"
+					ng-click="cleanRequestData()" value="CLEAR" class="btn btn-info"
+					class="btn btn-info">
+				</td>
+				<td>Response : <input type="button" id="clearRes"
+					ng-click="cleanResponseData()" value="CLEAR" class="btn btn-info"
+					show-tail>
+				</td>
+			</tr>
+			<tr>
+				<td><textarea id="requestTA" rows="10" cols="100" show-tail
+						ng-model="requestLogger"></textarea></td>
+				<td><textarea id="responseTA" rows="10" cols="100" show-tail
+						ng-model="responseLogger"></textarea></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

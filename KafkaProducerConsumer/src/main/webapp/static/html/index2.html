@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Client CRM Page</title>
+
+<script type="text/javascript" src="../javascript/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="../javascript/jquery-ui.js"></script>
+<script type="text/javascript" src="../javascript/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../javascript/Helper.js"></script>
+<link rel="stylesheet" href="../css/jquery-ui.css">
+</head>
+<body style="font-family: arial">
+	
+	
+<!-- 	<table>
+		<tr>
+			<td><input type="button" value="LOGIN" onclick="login()"> </td>
+			<td> <input type="button" value="LOGOUT" onclick="logout()"> </td>
+		</tr>
+	</table> -->
+	<div id="logTab">
+		<table>
+			<tr>
+				<td>Correlation ID </td>
+				<td><input type="text" id="logCorId"> </td>
+				<td>*This is for future use</td>
+			</tr>
+			
+			 <!-- <tr>
+				<td>Action </td>
+				<td><input type="text" id="logAction" value="101"> </td>
+				<td></td>
+			</tr> -->
+			
+			 <tr>
+				<td>Host </td>
+				<td><input type="text" id="logHost" > </td>
+				<td></td>
+			</tr> 
+			
+			<tr>
+				<td>User Name </td>
+				<td><input type="text" id="logUname" >  </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>Password </td>
+				<td><input type="password" id="logPwd" > </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>Station ID </td>
+				<td><input type="text" id="logStnId" > </td>
+				<td></td>
+			</tr>
+
+			 <tr>
+				<td>UG URL</td>
+				<td><input type="text" id="logUG" ></td>
+				<td></td>
+			</tr> 
+			
+			 <tr>
+				<td>Secured Connection</td>
+				<td><input type="checkbox" id="sslCheck" onchange="setSSL()" ></td>
+				<td></td>
+			</tr> 
+
+			</table>
+		
+		<table>
+		<tr>
+			<!-- <td><input type="button" value="LOGIN" onclick="connect()"> </td> -->
+			<td><input type="button" value="LOGIN" onclick="openSocket()"> </td>
+			
+		</tr>
+	</table>
+	</div>
+	
+	<div id="tabs" style="visibility: hidden">
+  <ul>
+    <!-- <li><a href="#logTab"><span>Login Works</span></a></li> -->
+    <li><a href="#auxTab"><span>Agent State Change</span></a></li>
+    <li><a href="#basicCC"><span>Basic Call Control</span></a></li>
+    <li><a href="#transfer"><span>Transfer</span></a></li>
+    <li><a href="#conference"><span>Conference</span></a></li>
+    <li><a href="#miscellaneous"><span>Miscellaneous</span></a></li>
+    <li><a href="#uad"><span>UAD</span></a></li>
+    <li><a href="#dialer"><span>Dialer</span></a></li>
+    <li> <span id="dataDiv" align="right"></span></li>
+  </ul>
+  <!-- <div id="fragment-1">
+    <p>First tab is active by default:</p>
+    <pre><code>$( "#tabs" ).tabs(); </code></pre>
+  </div> -->
+  
+ <!--  <div id="logTab">
+		<table>
+			<tr>
+				<td>Correlation ID </td>
+				<td><input type="text" id="logCorId"> </td>
+				<td>*This is for future use</td>
+			</tr>
+			
+			<tr>
+				<td>Action </td>
+				<td><input type="text" id="logAction" value="101"> </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>Token </td>
+				<td><input type="text" id="logToken" > </td>
+				<td>*This is same as ADU ID</td>
+			</tr>
+			
+			<tr>
+				<td>User Name </td>
+				<td><input type="text" id="logUname" value="stanley@icrm.com">  </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>Password </td>
+				<td><input type="password" id="logPwd" value="s"> </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>Station ID </td>
+				<td><input type="text" id="logStnId" value="3101"> </td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td>Tenant Group</td>
+				<td><input type="text" id="logTgpTxt" value="7"></td>
+				<td>*Only required for login</td>
+			</tr>
+
+			</table>
+		
+		<table>
+		<tr>
+			<td><input type="button" value="LOGIN" onclick="connect()"> </td>
+			<td><input type="button" value="LOGIN" onclick="connectUG()"> </td>
+			<td> <input type="button" value="LOGOUT" onclick="logout()"> </td>
+		</tr>
+	</table>
+	</div> -->
+   
+  <div id="auxTab">
+    <table>
+			<tr>
+				<td>Correlation ID </td>
+				<td><input type="text" id="auxCorId"> </td>
+				<td></td>
+			</tr>
+			
+			<!-- <tr>
+				<td>Action </td>
+				<td><input type="text" id="auxAction"> </td>
+				<td></td>
+			</tr>
+			
+			 <tr>
+				<td>ADU ID </td>
+				<td><input type="text" id="auxADU"> </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>User Name </td>
+				<td><input type="text" id="username">  </td>
+				<td></td>
+			</tr> -->
+			
+			<tr>
+				<td>Tenant Group Id </td>
+				<td><input type="text" id="tenantGrp"> </td>
+				<td></td>
+			</tr>
+						
+			<tr>
+				<td>Reason Code </td>
+				<td><input type="text" id="auxReason"> </td>
+				<td>*Fill this for "Go To AUX"</td>
+			</tr>
+			
+			<tr>
+				<td>Agent VoiceMode </td>
+				<td><input type="text" id="agentVoiceMode"> </td>
+				<td>*Required to update the state to Dialer"</td>
+			</tr>
+			
+			
+		</table>
+		
+		<table>
+		<tr>
+			<td><input type="button" value="Get AUX Codes" onclick="getAUXCodes()"> </td>
+			<td> <input type="button" value="Go To AUX" onclick="goToAUX()"> </td>
+			<td><input type="button" value="Make Available" onclick="makeAvaiable()"> </td>
+			<td> <input type="button" value="LOGOUT" onclick="logout()"> </td>
+		</tr>
+	</table>
+  </div>
+  
+  <div id="basicCC">
+        <table>
+			<tr>
+				<td>Correlation ID </td>
+				<td><input type="text" id="bccCorId"> </td>
+				<td></td>
+			</tr>
+			
+			<!--<tr>
+				<td>Action </td>
+				<td><input type="text" id="bccAction"> </td>
+				<td></td>
+			</tr>
+			
+			
+			 <tr>
+				<td>User Name </td>
+				<td><input type="text" id="bccUsername">  </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>ADU ID </td>
+				<td><input type="text" id="bccADU"> </td>
+				<td></td>
+			</tr> -->
+			
+			<tr>
+				<td>CDU ID </td>
+				<td><input type="text" id="bccCDU"> </td>
+				<td></td>
+			</tr>
+						
+			<tr>
+				<td>Destination </td>
+				<td><input type="text" id="bccDest"> </td>
+				<td>*Fill this for "Make Call"</td>
+			</tr>
+			
+			<tr>
+				<td>Customer Name </td>
+				<td><input type="text" id="bccCustName"> </td>
+				<td>*Fill this for "Make Call"</td>
+			</tr>
+			
+			<tr>
+				<td>Phone </td>
+				<td><input type="text" id="bccPhone"> </td>
+				<td>*Fill this for "Make Call"</td>
+			</tr>
+			
+			<tr>
+				<td>City </td>
+				<td><input type="text" id="bccCity"> </td>
+				<td>*Fill this for "Make Call"</td>
+			</tr>
+			
+		</table>
+		
+		<table>
+		<tr>
+			<td><input type="button" value="Make Call" onclick="makeCall()"> </td>
+			<td> <input type="button" value="Accept" onclick="acceptCall()"> </td>
+			<td><input type="button" value="Hold" onclick="hold()"> </td>
+			<td><input type="button" value="Reconnect" onclick="reconnect()"> </td>
+			<td><input type="button" value="Hang Up" onclick="hangUp()"> </td>
+			<td><input type="button" value="End Wrapup" onclick="endWrapUp()"> </td>
+		</tr>
+	</table>
+  </div>
+  
+  <div id="transfer">
+    <table>
+			<tr>
+				<td>Correlation ID </td>
+				<td><input type="text" id="tCorId"> </td>
+				<td></td>
+			</tr>
+			
+			<!-- <tr>
+				<td>Action </td>
+				<td><input type="text" id="tAction"> </td>
+				<td></td>
+			</tr> -->
+			
+			
+			<!-- <tr>
+				<td>User Name </td>
+				<td><input type="text" id="tUsername">  </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>ADU ID </td>
+				<td><input type="text" id="tADU"> </td>
+				<td></td>
+			</tr> -->
+				
+			<tr>
+				<td>CDU ID </td>
+				<td><input type="text" id="tCDU"> </td>
+				<td></td>
+			</tr>
+					
+			<tr>
+				<td>Destination </td>
+				<td><input type="text" id="tDest"> </td>
+				<td>*Fill this for "Transfer/Consultative Transfer Call"</td>
+			</tr>
+			
+			<tr>
+				<td>External UUI </td>
+				<td><input type="text" id="tUUI"> </td>
+				<td>*Fill this for "Transfer/Consultative Transfer Call"</td>
+			</tr>
+			
+			<tr>
+				<td>Customer Name </td>
+				<td><input type="text" id="tCustName"> </td>
+				<td>*Fill this for "Transfer/Consultative Transfer Call"</td>
+			</tr>
+			
+			<tr>
+				<td>Phone </td>
+				<td><input type="text" id="tPhone"> </td>
+				<td>*Fill this for "Transfer/Consultative Transfer Call"</td>
+			</tr>
+			
+			<tr>
+				<td>City </td>
+				<td><input type="text" id="tCity"> </td>
+				<td>*Fill this for "Transfer/Consultative Transfer Call"</td>
+			</tr>
+			
+		</table>
+		
+		<table>
+		<tr>
+			<td><input type="button" value="Transfer" onclick="transfer()"> </td>
+			<td> <input type="button" value="Consultative Transfer" onclick="consultTransfer()"> </td>
+			<td><input type="button" value="Complete Transfer" onclick="completeTrans()"> </td>
+			<td><input type="button" value="Cancel Transfer" onclick="cancelTrans()"> </td>
+		</tr>
+	</table>
+  </div>
+  
+  <div id="conference">
+        <table>
+			<tr>
+				<td>Correlation ID </td>
+				<td><input type="text" id="cCorId"> </td>
+				<td></td>
+			</tr>
+			
+			<!-- <tr>
+				<td>Action </td>
+				<td><input type="text" id="cAction"> </td>
+				<td></td>
+			</tr> -->
+			
+			
+			<!-- <tr>
+				<td>User Name </td>
+				<td><input type="text" id="cUsername">  </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>ADU ID </td>
+				<td><input type="text" id="cADU"> </td>
+				<td></td>
+			</tr> -->
+				
+			<tr>
+				<td>CDU ID </td>
+				<td><input type="text" id="cCDU"> </td>
+				<td></td>
+			</tr>
+					
+			<tr>
+				<td>Destination </td>
+				<td><input type="text" id="cDest"> </td>
+				<td>*Fill this for "Begin Conference Call"</td>
+			</tr>
+			
+			<tr>
+				<td>Customer Name </td>
+				<td><input type="text" id="cCustName"> </td>
+				<td>*Fill this for "Begin Conference  Call"</td>
+			</tr>
+			
+			<tr>
+				<td>Phone </td>
+				<td><input type="text" id="cPhone"> </td>
+				<td>*Fill this for "Begin Conference  Call"</td>
+			</tr>
+			
+			<tr>
+				<td>City </td>
+				<td><input type="text" id="cCity"> </td>
+				<td>*Fill this for "Begin Conference  Call"</td>
+			</tr>
+			
+		</table>
+		
+		<table>
+		<tr>
+			<td><input type="button" value="Begin Conference" onclick="beginConf()"> </td>
+			<td> <input type="button" value="Cancel Conference" onclick="cancelConf()"> </td>
+			<td><input type="button" value="Complete Conference" onclick="completeConf()"> </td>
+		</tr>
+	</table>
+  </div>
+
+<div id="miscellaneous">
+        <table>
+			<tr>
+				<td>Correlation ID </td>
+				<td><input type="text" id="mCorId"> </td>
+				<td></td>
+			</tr>
+			
+			<!-- <tr>
+				<td>Action </td>
+				<td><input type="text" id="mAction"> </td>
+				<td></td>
+			</tr> -->
+			
+			
+			<!-- <tr>
+				<td>User Name </td>
+				<td><input type="text" id="mUsername">  </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>ADU ID </td>
+				<td><input type="text" id="mADU"> </td>
+				<td></td>
+			</tr> -->
+				
+			<tr>
+				<td>CDU ID </td>
+				<td><input type="text" id="mCDU"> </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>DTMF</td>
+				<td><input type="text" id="mDTMF"> </td>
+				<td>*Fill this for "DTMF"</td>
+			</tr>
+			
+			<tr>
+				<td>Reason Code </td>
+				<td><input type="text" id="mReason"> </td>
+				<td>*Fill this for "Invalid Request/Operation Failed"</td>
+			</tr>
+			
+			<!-- <tr>
+				<td>Operation Name </td>
+				<td><input type="text" id="mOptName"> </td>
+				<td>*Fill this for "Operation Failed Request"</td>
+			</tr>
+			
+			<tr>
+				<td>Request Data </td>
+				<td><input type="text" id="mRqstData"> </td>
+				<td>*Fill this for "Invalid Request"</td> 
+			</tr>-->
+			
+		</table>
+		
+		<table>
+		<tr>
+			<td><input type="button" value="Toggle" onclick="toggle()"> </td>
+			<td> <input type="button" value="DTMF" onclick="dtmf()"> </td>
+			<td> <input type="button" value="Agent Current Details" onclick="restore()"> </td>
+			<td><input type="button" value="Reconnect" onclick="reconnectSession()"> </td>
+			<td><input type="button" value="Get Properties" onclick="request()"> </td>
+		</tr>
+	</table>
+  </div>
+
+<div id="uad">
+        <table>
+			<tr>
+				<td>Correlation ID </td>
+				<td><input type="text" id="uCorId"> </td>
+				<td></td>
+			</tr>
+			
+			<!-- <tr>
+				<td>Action </td>
+				<td><input type="text" id="uAction"> </td>
+				<td></td>
+			</tr> -->
+			
+			
+			<!-- <tr>
+				<td>User Name </td>
+				<td><input type="text" id="uUsername">  </td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>ADU ID </td>
+				<td><input type="text" id="uADU"> </td>
+				<td></td>
+			</tr> -->
+				
+			
+		</table>
+		
+		<table>
+		<tr>
+			<td><input type="button" value="Queue List" onclick="getQList()"> </td>
+			<td> <input type="button" value="Agent List" onclick="getAgntList()"> </td>
+			<td><input type="button" value="Address Book" onclick="getAddBook()"> </td>
+			<!-- <td><input type="button" value="Invalid Request" onclick="invalidRqst()"> </td> -->
+		</tr>
+	</table>
+  </div>
+  
+  <div id="dialer">
+  <table>
+  	<tr>
+		<td>Correlation ID </td>
+		<td><input type="text" id="logCorId"> </td>
+		<td>*This is for future use</td>
+	</tr>
+  
+ <!--  	<tr>
+		<td>User</td>
+		<td><input type="text" id="dialerUname"> </td>
+	</tr> -->
+	
+		<tr>
+		<td>Campaign Id:</td>
+		<td><input type="text" id="campId" oninput="enableJobId()"> </td>
+	</tr>
+		
+		<tr>
+		<td>Job Id:</td>
+		<td><input type="text" id="jobId" oninput="enableButtons()"> </td>
+	</tr>
+
+		
+		<tr>
+		<td>Customer Id:</td>
+		<td><input type="text" id="custId" oninput="enableButtons()"> </td>
+	</tr>
+	
+	
+		<tr>
+		<td>Cdu Id:</td>
+		<td><input type="text" id="cduId" oninput="enableButtons()"> </td>
+	</tr>
+		<tr>
+		<td>OutcomeString:</td>
+		<td><input type="text" id="outcomeString" oninput="enableButtons()"> </td>
+	</tr>
+
+		<tr>
+		<td>Action Id:</td>
+		<td><input type="text" id="actionId" oninput="enableButtons()"> </td>
+	</tr>
+	
+	<tr>
+		<td>Create Time:</td>
+		<td><input type="text" id="initTime" oninput="enableButtons()"> </td>
+	</tr>
+	
+	<tr>
+		<td>Callback Time:</td>
+		<td><input type="text" id="callBackTime" > </td>
+	</tr>
+	
+	<tr>
+		<!-- <td><input type="button" value="LOGIN" onclick="connect()"> </td> -->
+		<td><input type="button" value="DIALER LOGIN" onclick="dialerLogin()"> </td>
+		<td><input type="button" value="CAMPAIGN LIST" onclick="getCampaignList()"> </td>
+		<td><input type="button" id="campJobList" value="CAMPAIGN JOB LIST" onclick="getCampaignJobList()"> </td>
+		<td><input type="button" id ="dispose" value="Dispose" onclick="dispose()"> </td>
+		<td><input type="button" id="joinJob" value="JOIN JOB" onclick="joinJob()" > </td>
+		<td><input type="button" id ="outcomes" value="GET OUTCOMES" onclick="fetchOutcomes()"> </td>
+		<td><input type="button" id ="nextCall" value="NEXT CALL" onclick="nextCall()"> </td>
+	</tr>
+		
+  </table>
+  </div>
+
+</div>
+	
+	<div id="IODiv" >
+	<hr width="100%">
+	<table>
+		<tr>
+			<td> Request : <input type="button" id="clearReq" onclick="cleanRequestData()" value="CLEAR"> </td>
+		</tr>
+		<tr>
+			<td>
+				<textarea id="requestTA" rows="10" cols="100" onchange="scrollDown()"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td> Response : <input type="button"  id="clearRes" onclick="cleanResponseData()" value="CLEAR"> </td>			
+		</tr>
+		<tr>
+			<td>
+				<textarea id="responseTA" rows="10" cols="100" onchange="scrollDown()"></textarea>
+			</td>
+		</tr>
+	</table>
+	</div>
+	
+	<script>
+$( "#tabs" ).tabs();
+</script>
+</body>
+</html>
